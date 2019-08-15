@@ -79,10 +79,10 @@ for k in range(1, transactions):
 这时候时间复杂度已经降到O(kn)了,空间复杂度也是O(kn)，但是还有下降空间，我们把内外层循环换一下，这时候要保存mink数组了，否则要乱套的
 
 ```python
-dp = [[0 for _ in range(len(prices))] for _ in range(2 + 1)]
-mink = [prices[0] for _ in range(3)]
+dp = [[0 for _ in range(len(prices))] for _ in range(transactions + 1)]
+mink = [prices[0] for _ in range(transactions + 1)]
 for i in range(1, len(prices)):
-		for k in range(1, 3):
+		for k in range(1, transactions + 1):
 				dp[k][i] = max(dp[k][i-1], prices[i] - mink[k])
         mink[k] = min(mink[k], prices[i] - dp[k-1][i-1])
 ```
@@ -112,3 +112,15 @@ return dp2
 ```
 
 其实最后这个写法还有另外一种解释，但我实在没看懂。这种方法虽然好懂，但是是在复杂的dp的基础上一步一步优化下来的，也不失为一个好办法。
+
+最后，在实际做的时候碰到了内存过大的问题。当交易次数很大的时候，保存的数组也容易过大。这个时候我们考虑一下，如果交易次数大于总交易天数的一半，那么说明我们每两天都可以做一次交易，即只要看到价格差我们就可以赚钱，这个时候就不用保存任何数组了。
+
+```python
+if k > len(prices) // 2:
+		profit = 0
+		for i in range(1, len(prices)):
+				if prices[i] > prices[i-1]:
+						profit += prices[i] - prices[i-1]
+return profit
+```
+
