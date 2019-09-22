@@ -74,3 +74,16 @@ def bs(array, target):
     return -1
 ```
 
+需要注意的一点是，binary_seach 在
+
+```python
+while True
+  if left == right:
+  	return
+  elif ...:
+  	right = mid
+  else:
+  	left = mid + 1
+```
+
+这种情况下也能顺利运行

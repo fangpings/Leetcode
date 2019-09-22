@@ -31,3 +31,11 @@ Return the following binary tree:
    第二个方法是基于这么一个考虑的。我们不找`inorder`中的对应值，而是维护一个stop。**我们不断从左往右遍历`inorder`数组，左子树的stop是当前的rootvalue，而右子树的stop是上层的rootvalue**。`inorder`遍历到stop的时候，说明当前子树已经构建完毕了。如果是左子树构建完毕，那么从pop `inorder[0]`(左边的树全部都已经构建完毕，所以已经全部从`inorder`中去掉了)，然后继续构建右子树。
 
    构建的方法是`preorder[0]`作为rootvalue，然后pop掉，接下来rootvalue作为左子树的stopvalue递归构建左子树，上层的stopvalue作为右子树的stopvalue递归构建右子树。
+   
+   ```
+   Preorder: [ROOT][LEFT][RIGHT]
+   Inorder: [LEFT][ROOT][RIGHT]
+   inorder我们不知道root在哪里，所以只能在递归中慢慢pop（左子树走完了，inorder碰到stopvalue了，我们就该pop了），而preorder我们知道root在哪里，所以我们在建立根节点的时候就把他pop出去
+   ```
+   
+   
