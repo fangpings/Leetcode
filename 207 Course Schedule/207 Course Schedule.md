@@ -38,9 +38,10 @@ Explanation: There are a total of 2 courses to take.
 
 但是这个每次要重新找入度为0的节点太慢了。
 
-另一个方法是用dfs找环，这里用的是dfs+backtracking。即我们用bfs做遍历，然后记录已经走过的node，在我们退出当前bfs深度之后，我们再把标记取消。
+一个方法是用dfs找环，这里用的是dfs+backtracking。即我们用dfs做遍历，然后记录已经走过的node，在我们退出当前bfs深度之后，我们再把标记取消。
 
 ```python
+# visits 数组一开始设置为全0，visit为0表示该节点还未曾被访问过，visit为1表示该节点被访问过，且已确定从该节点出发并没有环（我们碰到这种节点可以直接确定当前路径上没有环，退出到上一层），visit为-1表示该节点在当前访问路径上（正在被判断是否有环），如果我们访问到了为-1的节点，说明我们在路径上碰到环了。
 def dfs(self, i, graph, visits):
     if visits[i] == -1:
     		return False
@@ -56,3 +57,23 @@ def dfs(self, i, graph, visits):
 ```
 
 这个写法很好啊，是一个典型的backtracking做法，可以好好学习一下
+
+另一个方法是用bfs找环。
+
+```python
+for i in range(numCourses):
+  	if inDegree[i] == 0:
+    		queue.append(i)
+
+    visited = []
+
+    while queue:
+      	preq = queue.pop()
+      	visited.append(preq)
+      	for course in hashMap[preq]:
+        		inDegree[course] -= 1
+        		if inDegree[course] == 0:
+          			queue.append(course)
+```
+
+先找到所有入度为0的节点，加入队列，然后每次出队一个节点，更新他通往的所有节点，如果这些节点里面有任何入度为0的节点，加入队列（注意**新的入度为0的节点只会出现在这些节点中**）然后我们判断最后访问过的节点数和总节点数是否相等。

@@ -26,7 +26,8 @@ You may assume that you have an infinite number of each kind of coin.
 
 递推式
 $$
-S(amount) = \min\limits_{i=0,...n-1}(amount - coins[i])+1\\
+S(amount) = \min\limits_{i=0,...n-1}(S(amount - coins[i]))+1\\
 S(0)=0
 $$
 这都不会我去死好了。。
+

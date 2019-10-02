@@ -28,4 +28,4 @@ class Solution(object):
 
 if __name__ == '__main__':
     sol = Solution()
-    print(sol.maxProduct([-2, -2]))
+    print(sol.maxProduct([-2, 1]))
